@@ -1,0 +1,114 @@
+\documentclass[11pt,openany]{book}
+%Paquete de idioma (Español)
+\usepackage[spanish]{babel}
+%utf8 (reconoce los acentos españoles)
+\usepackage[utf8]{inputenc}
+%Paquete de fuentes (?)
+\usepackage{amsfonts}
+%Paquete de gráficos
+\usepackage{graphicx}
+%No se para que es
+\usepackage{tipa}
+%Distribución de la página (margen, pié y encabezado)
+\usepackage[left=2cm, right=2cm, top=2.00cm, bottom=2.00cm]{geometry}
+
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{physics}
+\usepackage{amsmath,amssymb}
+\usepackage{mathtools}
+\setlength{\parindent}{12pt}
+\usepackage[makeroom]{cancel}
+
+	
+\begin{document}
+	\chapter{Separación de variables genérico}
+
+\noindent Supongamos que estamos en $\mathbb{R}^2$, y nos piden resolver mediante separación de variables de la siguiente forma:
+\\[8pt]
+
+\textsl{Ejercicio: Encuentra las soluciones de} 
+	\begin{equation}
+	 \Delta u=0
+	\end{equation} 
+	
+	\textsl{usando método de separación de variables. Clasifica las soluciones en función del signo de autovalor $\lambda$.}
+\\[8pt]
+
+\noindent Lo primero que tenemos que hacer es reescribir la ecuación teniendo en cuenta que u depende de dos variables.
+\begin{equation}
+	\Delta u=0 \longleftrightarrow \pdv{u^2}{x^2}+\pdv{u^2}{y^2}=0
+\end{equation}
+\noindent Ahora separamos u en dos variables, que serán x e y.
+\begin{equation}
+u(x,y)=v(x)w(y)
+\end{equation}
+
+\noindent A esta nueva representación le aplicamos la ecuación que nos piden, en (1.1), y llegamos a lo siguiente:
+\begin{equation} \nonumber
+\begin{cases}
+\pdv{u^2}{x^2}=v''(x)w(y) \\ \pdv{u^2}{y^2}=v(x)w''(y)
+\end{cases}
+\longleftrightarrow \ \pdv{u^2}{x^2}+\dv{u^2}{y^2}=0 \longleftrightarrow \ v''(x)w(y)+v(x)w''(y)=0 \quad \frac{V''(x)}{V(x)} = \frac{-w''(y)}{w(y)} = \lambda 
+\end{equation}
+Ahora dependiendo del valor de $\lambda$, tendremos unos casos u otros.
+
+\begin{itemize}
+	\item Si $\lambda$=0:
+	\begin{equation} \nonumber
+	v(x)=Ax + B
+	\end{equation}
+	\begin{equation} \nonumber
+	w(y)=Cy + D
+	\end{equation}
+	\item Si $\lambda>0$:
+	\begin{equation} \nonumber
+	w(y)=A\cos(\sqrt{\lambda}y)+B\sin(\sqrt{\lambda}y)
+	\end{equation}
+	\begin{equation}  \nonumber
+	v(x)=Ce^{(\sqrt{\lambda}x)}+De^{-(\sqrt{\lambda}x)}
+	\end{equation}
+	\item Si $\lambda<0$, se cambian los papeles del apartado anterior, y teniendo en cuenta que ahora dentro de la raiz tenemos $-\lambda$.
+\end{itemize}
+Para llegar a esto se han usado métodos de resolución de EDOs. Una vez llegado aquí, se aplican a estas soluciones las condiciones que tengamos y nos quedará siempre una única opción.
+\chapter{Algunos ejercicios resueltos por mi}
+\textsl{Sea $\Omega$ = $\{(x,y)\in \mathbb{R}^2: 0<x<a, 0<y<b\}$ resolver el problema con condiciones de contorno mixtas:}
+\begin{equation} \nonumber
+\begin{cases}
+\Delta u=0 & \text{en $\Omega$}\\ u(x,0)=0, u(x,b)=g(x) & \text{para } 0\leq x\leq a \\ u(0,y)=u_x(a,y)=0 & \text{para } 0\leq y\leq b
+\end{cases}
+\end{equation}
+\textsl{donde g $\in \mathcal{C}^2(\mathbb{R})$, g(0)=0, g'(a)=0, ($u_x= \pdv{u}{x}$)}
+\\[11pt]
+\noindent Empezamos haciendo el estudio de casos de valores de $\lambda$, y nos saldrá que el único caso posible es el de $\lambda<0$.
+En la parte espacial, tendríamos
+\begin{gather*} 
+V(x)=A\cos(\sqrt{|\lambda|}x)+B\sin(\sqrt{|\lambda|}x) \quad V(0)=0 \longleftrightarrow A = 0\\
+V'(x)= \sqrt{|\lambda|}B\cos(|\lambda|x) \xrightarrow{x=a} \sqrt{|\lambda|}B\cos(|\lambda|a) = 0 \longleftrightarrow \sqrt{|\lambda|} a = (n+ \frac{1}{2}) \pi \longleftrightarrow \sqrt{|\lambda|} = \frac{(n+ \frac{1}{2}) \pi}{a} \\
+V(x)=A\sin(\frac{(n+ \frac{1}{2}) \pi}{a}x)
+\end{gather*}
+Ahora, para la parte que corresponde a la Y
+\begin{gather*}
+W(y)=Ce^{(\sqrt{|\lambda|}y)}+De^{-(\sqrt{|\lambda|}y)} \xrightarrow{y=0,w=0} C+D=0 \\
+W(y)= Ce^{(\frac{(n+ \frac{1}{2}) \pi}{a}y)}-Ce^{-(\frac{(n+ \frac{1}{2}) \pi}{a}y)}=C(e^{(\frac{(n+ \frac{1}{2}) \pi}{a}y)}-e^{-(\frac{(n+ \frac{1}{2}) \pi}{a}y)})\\
+\text{Esto, por definición de seno hiperbólico, nos queda } W(y)=2C\sinh(\frac{(n+\frac{1}{2})\pi}{a})
+\end{gather*}
+Ahora, para formar nuestra solución definitiva, multiplicamos V y W, pero con la particularidad de que por comodidad el producto de las constantes (\textsl{A por parte de V, 2C por parte de W}) pasará a ser denotado por A, y no perderemos nada en este paso pues siguen siendo constantes.
+\\[11pt]
+Ahora, construimos nuestra solución final
+\begin{gather*}
+u(x,y)= \sum\limits^\infty_{n=1} A_n\sin(\frac{(n+ \frac{1}{2}) \pi}{a}x)\sinh(\frac{(n+\frac{1}{2})\pi}{a}y) \text{ Si ahora le aplicamos la condición u(x,b)=g(x) }\\
+u(x,b)= \sum\limits^\infty_{n=1} A_n\sin(\frac{(n+ \frac{1}{2})=g(x) \pi}{a}x)\sinh(\frac{(n+\frac{1}{2})\pi}{a}b)\\
+\text{ Donde la parte que depende del sinh ahora es una constante y la agrupamos con $A_n$}\\
+u(x,b)=\sum\limits^\infty_{n=1} A_n\sin(\frac{(n+ \frac{1}{2}) \pi}{a}x)=g(x)\\
+\text{Por el enunciado sabemos que en x=0 la funcion vale 0, y que si derivamos y evaluamos en x=a, también vale 0}\\
+u(0,b)=\sum\limits^\infty_{n=1} A_n\sin(\frac{(n+ \frac{1}{2}) \pi}{a}0)=g(0)=0 \text{ (Obvio se cumple pues el seno anula todo)}\\
+u'(x,b)=A_n\frac{(n+ \frac{1}{2}) \pi}{a}\cos(\frac{(n+ \frac{1}{2}) \pi}{a}x) \\
+u'(a,b)=A_n\frac{(n+ \frac{1}{2}) \pi}{a}\cos(\frac{(n+ \frac{1}{2}) \pi}{\cancel{a}}\cancel{a})=g'(a)=0\\
+\text{Que también es cierto puesto que ese coseno se anula siempre, luego solo nos falta calcular $A_n$}\\
+A_n=\int_{0}^{a} g(x)\sin(\frac{(n+ \frac{1}{2}) \pi}{a}x)\\
+\text{Y aquí acaba el ejercicio puesto que no tenemos ninguna g(x) específica}
+\end{gather*}
+\end{document}
